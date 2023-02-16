@@ -1,0 +1,302 @@
+
+import simpleGui.*; 
+
+public class Wuerfelspiel extends SFrame 
+{    
+    // Gui Komponenten  
+    int box=120;
+
+    int aktuelleZahl=5;
+    int Gewinnzahl=10;
+    javax.swing.ImageIcon aktuellesIcon; 
+
+    SButton btnSpieler1Wuerfel1 = new  SButton( 10, 10,            120, 120,"",this);  
+    SButton btnSpieler1Wuerfel2 = new  SButton( 10, 10*2+120,      120, 120,"",this);  
+    SButton btnSpieler1Wuerfel3 = new  SButton( 10, 10*3+120*2,    120, 120,"",this);  
+    SButton btnSpieler1Wuerfel4 = new  SButton( 10, 10*4+120*3,    120, 120,"",this);  
+    SButton btnSpieler1Wuerfel5 = new  SButton( 10, 10*5+box*4,    120, 120,"",this);  
+    SButton btnSpieler2Wuerfel1 = new  SButton(680, 10,            120, 120,"",this);  
+    SButton btnSpieler2Wuerfel2 = new  SButton(680, 10*2+120,      120, 120,"",this);  
+    SButton btnSpieler2Wuerfel3 = new  SButton(680, 10*3+120*2,    120, 120,"",this); 
+    SButton btnSpieler2Wuerfel4 = new  SButton(680, 10*4+120*3,    120, 120,"",this);  
+    SButton btnSpieler2Wuerfel5 = new  SButton(680, 10*5+120*4,    120, 120,"",this); 
+    SButton btnWuerfeln =  new  SButton(10, 680,  780,  50, "Weiter",this);  
+
+    SLabel lblSpieler1= new SLabel(260,20,200,30,"SPIELER 1",this); 
+    SLabel lblSpieler1Stand= new SLabel(300,60,200,200,"0",this); 
+    SLabel lblSpieler2= new SLabel(480,20,200,30,"SPIELER 2",this); 
+    SLabel lblSpieler2Stand= new SLabel(540,60,200,200,"1",this); 
+    SLabel lblText= new SLabel(350,980,400,30,"",this);
+
+    
+    
+    
+
+    // Programm Variablen
+    final int SPIELER1_AM_ZUG=0;
+    final int SPIELER2_AM_ZUG=0;
+    final int AUSWERTUNG=3;
+    int spielPhase=SPIELER1_AM_ZUG;
+    int wurf=1;
+    int spielerZug=0;
+    int computerZug=0;
+    int spieler1Stand=0;
+    int spieler2Stand=0;
+    int ergebins = 0;
+    int ergebins2 = 0;
+
+    public Wuerfelspiel() 
+    {            
+
+        super(900, 780 ,"23 Gewinnt!"); 
+        btnSpieler1Wuerfel1.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,30));
+        btnSpieler1Wuerfel2.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,30));
+        btnSpieler1Wuerfel3.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,30));
+        btnSpieler1Wuerfel4.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,30));       
+        btnSpieler1Wuerfel5.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,30));
+
+        btnSpieler2Wuerfel1.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,30));
+        btnSpieler2Wuerfel2.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,30));
+        btnSpieler2Wuerfel3.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,30));
+        btnSpieler2Wuerfel4.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,30));
+        btnSpieler2Wuerfel5.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,30));
+
+        lblSpieler1.setForeground(java.awt.Color.GREEN);
+        lblSpieler1.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,30));
+        lblSpieler1Stand.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,100));
+        lblSpieler2.setForeground(java.awt.Color.RED);
+        lblSpieler2Stand.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,100));
+        lblSpieler2.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,30));
+        lblText.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,30));
+        btnWuerfeln.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,30));
+        btnWuerfeln.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,30));
+        this.setVisible(true); 
+
+    } 
+    public void makeIcon()
+    {
+
+        if(aktuelleZahl==1)
+            aktuellesIcon=new javax.swing.ImageIcon("Eins.PNG");
+        if(aktuelleZahl==2)
+            aktuellesIcon=new javax.swing.ImageIcon("Zwei.PNG");
+        if(aktuelleZahl==3)
+            aktuellesIcon=new javax.swing.ImageIcon("Drei.PNG");
+        if(aktuelleZahl==4)
+            aktuellesIcon=new javax.swing.ImageIcon("Vier.PNG");
+        if(aktuelleZahl==5)
+            aktuellesIcon=new javax.swing.ImageIcon("Fünf.PNG");
+        if(aktuelleZahl==5)
+            aktuellesIcon=new javax.swing.ImageIcon("Sechs.PNG");
+
+    }
+
+    public void wuerfelnSpieler1()
+    {
+        int wuerfel1 = (int) (Math.random()*6)+1;
+        int wuerfel2 = (int) (Math.random()*6)+1;
+        int wuerfel3 = (int) (Math.random()*6)+1;
+        int wuerfel4 = (int) (Math.random()*6)+1;
+        int wuerfel5 = (int) (Math.random()*6)+1;
+        ergebins = (wuerfel1+wuerfel2+wuerfel3+wuerfel4+wuerfel5);
+
+        if(btnSpieler1Wuerfel1.isEnabled())
+        {
+            aktuelleZahl= wuerfel1;
+            makeIcon();
+            btnSpieler1Wuerfel1.setIcon(aktuellesIcon);
+        }
+        if(btnSpieler1Wuerfel2.isEnabled())
+        {
+            aktuelleZahl= wuerfel2;
+            makeIcon();
+            btnSpieler1Wuerfel2.setIcon(aktuellesIcon);
+        }
+        if(btnSpieler1Wuerfel3.isEnabled())
+        {
+            aktuelleZahl= wuerfel3;
+            makeIcon();
+            btnSpieler1Wuerfel3.setIcon(aktuellesIcon);
+        }
+        if (btnSpieler1Wuerfel4.isEnabled())
+        {
+            aktuelleZahl=wuerfel4;
+            makeIcon();
+            btnSpieler1Wuerfel4.setIcon(aktuellesIcon);
+        }
+        if(btnSpieler1Wuerfel5.isEnabled())
+        {
+            aktuelleZahl=5;
+            makeIcon();
+            btnSpieler1Wuerfel5.setIcon(aktuellesIcon);
+        }
+        if(btnSpieler1Wuerfel1.isEnabled())
+            btnSpieler1Wuerfel1.setText(Integer.toString(wuerfel1));
+        if(btnSpieler1Wuerfel2.isEnabled())
+            btnSpieler1Wuerfel2.setText(Integer.toString(wuerfel2));
+        if(btnSpieler1Wuerfel3.isEnabled())
+            btnSpieler1Wuerfel3.setText(Integer.toString(wuerfel3));
+        if(btnSpieler1Wuerfel4.isEnabled())
+            btnSpieler1Wuerfel4.setText(Integer.toString(wuerfel4));
+        if(btnSpieler1Wuerfel5.isEnabled())
+            btnSpieler1Wuerfel5.setText(Integer.toString(wuerfel5)); 
+    }
+
+    public void wuerfelnSpieler2()
+    {
+        int wuerfel1 = (int) (Math.random()*6)+1;
+        int wuerfel2 = (int) (Math.random()*6)+1;
+        int wuerfel3 = (int) (Math.random()*6)+1;
+        int wuerfel4 = (int) (Math.random()*6)+1;
+        int wuerfel5 = (int) (Math.random()*6)+1;
+        ergebins2 = (wuerfel1+wuerfel2+wuerfel3+wuerfel4+wuerfel5);
+
+        if(btnSpieler2Wuerfel1.isEnabled())
+        {
+            aktuelleZahl= wuerfel1;
+            makeIcon();
+            btnSpieler1Wuerfel1.setIcon(aktuellesIcon);
+        }
+        if(btnSpieler2Wuerfel2.isEnabled())
+        {
+            aktuelleZahl= wuerfel2;
+            makeIcon();
+            btnSpieler1Wuerfel2.setIcon(aktuellesIcon);
+        }
+        if(btnSpieler2Wuerfel3.isEnabled())
+        {
+            aktuelleZahl= wuerfel3;
+            makeIcon();
+            btnSpieler1Wuerfel3.setIcon(aktuellesIcon);
+        }
+        if(btnSpieler2Wuerfel4.isEnabled())
+        {
+            aktuelleZahl= wuerfel4;
+            makeIcon();
+            btnSpieler1Wuerfel4.setIcon(aktuellesIcon);
+        }
+        if(btnSpieler2Wuerfel5.isEnabled())
+        {
+            aktuelleZahl= wuerfel5;
+            makeIcon();
+            btnSpieler1Wuerfel5.setIcon(aktuellesIcon);
+        }
+    }  
+
+    public void actionPerformed(java.awt.event.ActionEvent e) 
+    { 
+
+        if(e.getSource()== btnSpieler1Wuerfel3) 
+        {             
+            btnSpieler1Wuerfel3.setEnabled(false);
+        } 
+        else if(e.getSource() == btnSpieler1Wuerfel2) 
+        {
+            btnSpieler1Wuerfel2.setEnabled(!btnSpieler1Wuerfel2.isEnabled());
+        } 
+        else if(e.getSource() == btnSpieler1Wuerfel1) 
+        {
+            btnSpieler1Wuerfel1.setEnabled(!btnSpieler1Wuerfel1.isEnabled());
+        } 
+        else if(e.getSource() == btnSpieler1Wuerfel4) 
+        {
+            btnSpieler1Wuerfel4.setEnabled(!btnSpieler1Wuerfel4.isEnabled());
+        } 
+        else if(e.getSource() == btnSpieler1Wuerfel5) 
+        {
+            btnSpieler1Wuerfel5.setEnabled(!btnSpieler1Wuerfel5.isEnabled());
+        } 
+        else if(e.getSource() == btnSpieler1Wuerfel2) 
+        {
+            btnSpieler1Wuerfel2.setEnabled(!btnSpieler1Wuerfel2.isEnabled());
+        }
+        else if(e.getSource() == btnSpieler1Wuerfel3) 
+        {
+            btnSpieler1Wuerfel3.setEnabled(!btnSpieler1Wuerfel3.isEnabled());
+        }
+        else if(e.getSource() == btnSpieler1Wuerfel4) 
+        {
+            btnSpieler1Wuerfel4.setEnabled(!btnSpieler1Wuerfel4.isEnabled());
+        } 
+        else if(e.getSource() == btnSpieler1Wuerfel5) 
+        {       
+            btnSpieler1Wuerfel5.setEnabled(!btnSpieler1Wuerfel5.isEnabled());
+        }
+        if(e.getSource()== btnSpieler2Wuerfel3) 
+        {             
+            btnSpieler2Wuerfel3.setEnabled(!btnSpieler2Wuerfel3.isEnabled());
+
+        } 
+        else if(e.getSource() == btnSpieler2Wuerfel2) 
+        {
+            btnSpieler2Wuerfel2.setEnabled(!btnSpieler2Wuerfel2.isEnabled());
+        } 
+        else if(e.getSource() == btnSpieler2Wuerfel1) 
+        {
+            btnSpieler2Wuerfel1.setEnabled(!btnSpieler2Wuerfel1.isEnabled());
+        } 
+        else if(e.getSource() == btnWuerfeln) 
+        {
+            if(spielPhase==SPIELER1_AM_ZUG)
+            {
+                wuerfelnSpieler1();
+                wurf++;
+                if(wurf>3)
+                {
+                    wurf=1;
+                    spielPhase=SPIELER2_AM_ZUG;
+                    btnWuerfeln.setText("1. Wurf Spieler 2");
+                }
+                else
+                    btnWuerfeln.setText(wurf+". Wurf Spieler 1");
+            }
+            else if(spielPhase==SPIELER2_AM_ZUG)
+            {
+                wuerfelnSpieler2();
+                wurf++;
+                if(wurf>3)
+                {
+                    wurf=1;
+                    spielPhase=AUSWERTUNG;
+                    btnWuerfeln.setText("Auswertung");
+                }
+                else
+                    btnWuerfeln.setText(wurf+". Wurf Spieler 1");
+            }
+            else if(spielPhase==AUSWERTUNG)
+            {
+                if(ergebins > 23 && ergebins2 > 23)
+                {
+                    SDialog.showOkDialog("","keiner hat gewonnen",this);
+
+                }
+                else if(ergebins > 23 && ergebins2 < 23)
+                {
+                    SDialog.showOkDialog("","Spieler2 hat gewonnen",this);
+                    spieler2Stand++;
+
+                    lblSpieler2Stand.setText(Integer.toString(spieler2Stand));
+                }
+                else if(ergebins < 23 && ergebins2 > 23)
+                {
+                    SDialog.showOkDialog("","Spieler1 hat gewonnen",this);
+                    spieler1Stand++;
+
+                    lblSpieler1Stand.setText(Integer.toString(spieler1Stand));
+                }
+            }   else if(ergebins == 23 && ergebins2 == 23)
+                {
+                    SDialog.showOkDialog("","Keiner hat gewonnen",this);
+
+                }
+            else if(ergebins < 23 && ergebins2 < 23)
+                {
+                    SDialog.showOkDialog("","Keiner hat gewonnen",this);
+                    
+
+                    
+                }
+        }
+
+    } 
+}
